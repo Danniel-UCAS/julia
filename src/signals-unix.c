@@ -28,10 +28,8 @@
 #define HAVE_TIMER
 #endif
 
-#if defined(JL_USE_INTEL_JITEVENTS)
-unsigned sig_stack_size = SIGSTKSZ;
-#elif defined(_CPU_AARCH64_)
-// The default SIGSTKSZ causes stack overflow in libunwind.
+#if defined(JL_USE_INTEL_JITEVENTS) ||                  /* required by VTune */            \
+    defined(_CPU_AARCH64_) || defined(JL_ASAN_ENABLED)  /* prevent overflow in libunwind */
 #define sig_stack_size (1 << 16)
 #else
 #define sig_stack_size SIGSTKSZ
