@@ -12,6 +12,18 @@
 #define sleep(x) Sleep(1000*x)
 #endif
 
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+
+#if __has_feature(address_sanitizer) || defined(__SANITIZE_ADDRESS__)
+#define JL_ASAN_ENABLED
+#endif
+
+#if __has_feature(memory_sanitizer)
+#define JL_MSAN_ENABLED
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
